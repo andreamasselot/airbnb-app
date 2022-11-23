@@ -39,17 +39,60 @@ export default function RoomScreen() {
     fetchData();
   }, []);
 
+  const stars = [];
+  for (let i = 0; i < 5; i++) {
+    if (i < data.ratingValue) {
+      const newStar = <Foundation name="star" size={24} color="#ffb100" />;
+      stars.push(newStar);
+    } else {
+      const newStar = <Foundation name="star" size={24} color="grey" />;
+      stars.push(newStar);
+    }
+  }
+
   return isLoading ? (
     <ActivityIndicator />
   ) : (
     <ScrollView>
-      <Image source={{ uri: data.photos[0].url }} style={styles.img} />
-      <Text>{data.price} €</Text>
-      <Text>{data.title}</Text>
+      <View>
+        <Image source={{ uri: data.photos[0].url }} style={styles.imgRoom} />
+        <Text style={styles.prices}>{data.price} €</Text>
+      </View>
+      <View style={styles.descriptionContainer}>
+        <View>
+          <Text style={styles.title}>{data.title}</Text>
+          <View style={styles.reviews}>
+            <Text>{stars}</Text>
+            <Text>{data.reviews} reviews</Text>
+          </View>
+        </View>
+        <Image
+          source={{ uri: data.user.account.photo.url }}
+          style={styles.avatar}
+        />
+      </View>
+
+      <Text>{data.description}</Text>
     </ScrollView>
   );
 }
 const styles = StyleSheet.create({
-  img: { width: "100%", height: 300 },
+  imgRoom: { width: "100%", height: 300, position: "relative" },
   avatar: { width: 80, height: 80, borderRadius: "50%" },
+  prices: {
+    backgroundColor: "black",
+    color: "white",
+    fontSize: 20,
+    width: 80,
+    position: "absolute",
+    bottom: 15,
+    padding: 10,
+  },
+  descriptionContainer: {
+    flexDirection: "row",
+    padding: 20,
+    alignItems: "center",
+  },
+  reviews: { flexDirection: "row", alignItems: "center", padding: 10 },
+  title: { fontSize: 22 },
 });

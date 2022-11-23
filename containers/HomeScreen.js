@@ -46,7 +46,9 @@ export default function HomeScreen() {
         const stars = [];
         for (let i = 0; i < 5; i++) {
           if (i < item.ratingValue) {
-            const newStar = <Foundation name="star" size={24} color="black" />;
+            const newStar = (
+              <Foundation name="star" size={24} color="#ffb100" />
+            );
             stars.push(newStar);
           } else {
             const newStar = <Foundation name="star" size={24} color="grey" />;

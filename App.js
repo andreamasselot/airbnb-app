@@ -11,6 +11,7 @@ import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
 import SplashScreen from "./containers/SplashScreen";
 import RoomScreen from "./containers/RoomScreen";
+import { Image } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -88,9 +89,15 @@ export default function App() {
                       <Stack.Screen
                         name="Home"
                         options={{
-                          title: "My App",
-                          headerStyle: { backgroundColor: "red" },
-                          headerTitleStyle: { color: "white" },
+                          headerStyle: { backgroundColor: "white" },
+                          headerTitle: () => {
+                            return (
+                              <Image
+                                source={require("./assets/logo.png")}
+                                style={{ width: 30, height: 30 }}
+                              />
+                            );
+                          },
                         }}
                       >
                         {() => <HomeScreen />}
@@ -98,9 +105,15 @@ export default function App() {
                       <Stack.Screen
                         name="Room"
                         options={{
-                          title: "My App",
-                          headerStyle: { backgroundColor: "red" },
-                          headerTitleStyle: { color: "white" },
+                          headerStyle: { backgroundColor: "white" },
+                          headerTitle: () => {
+                            return (
+                              <Image
+                                source={require("./assets/logo.png")}
+                                style={{ width: 30, height: 30 }}
+                              />
+                            );
+                          },
                         }}
                       >
                         {() => <RoomScreen />}

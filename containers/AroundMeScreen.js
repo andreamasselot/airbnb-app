@@ -1,4 +1,4 @@
-import { useRoute } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {
@@ -12,6 +12,7 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 
 export default function AroundMeScreen() {
+  const navigation = useNavigation();
   const [data, setData] = useState([]);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
@@ -24,8 +25,9 @@ export default function AroundMeScreen() {
           const location = await Location.getCurrentPositionAsync();
           setLatitude(location.coords.latitude);
           setLongitude(location.coords.longitude);
+          console.log(location);
           const response = await axios.get(
-            `https://express-airbnb-api.herokuapp.com/rooms/around?latitude=${latitude}&longitude=${longitude}`
+            `https://express-airbnb-api.herokuapp.com/rooms/around?latitude=${location.coords.latitude}&longitude=${location.coords.longitude}`
           );
           setData(response.data);
 
@@ -34,7 +36,7 @@ export default function AroundMeScreen() {
           alert("Permission refusée");
         }
       } catch (error) {
-        console.log(error.message);
+        console.log(error.response);
       }
     };
     getPermission();
@@ -47,20 +49,28 @@ export default function AroundMeScreen() {
         style={styles.map}
         showsUserLocation
         initialRegion={{
-          latitude: data.latitude,
-          longitude: data.longitude,
+          latitude: latitude,
+          longitude: longitude,
           latitudeDelta: 0.02,
           longitudeDelta: 0.02,
         }}
       >
-        <Marker
-          coordinate={{
-            latitude: data.latitude,
-            longitude: data.longitude,
-          }}
-          title={data.title}
-          description={data.description}
-        />
+        {data.map((marker) => {
+          return (
+            <Marker
+              key={marker.latitude}
+              coordinate={{
+                latitude: marker.location[1],
+                longitude: marker.location[0],
+              }}
+              title={marker.title}
+              description={marker.description}
+              onCalloutPress={() => {
+                navigation.navigate("Room", { id: marker._id });
+              }}
+            />
+          );
+        })}
       </MapView>
     </View>
   );

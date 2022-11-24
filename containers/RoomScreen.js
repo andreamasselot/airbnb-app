@@ -4,15 +4,12 @@ import { useEffect, useState } from "react";
 import MapView, { Marker } from "react-native-maps";
 
 import {
-  Button,
   Text,
   View,
   Image,
   ActivityIndicator,
-  FlatList,
   StyleSheet,
   ScrollView,
-  Dimensions,
 } from "react-native";
 import { Foundation } from "@expo/vector-icons";
 

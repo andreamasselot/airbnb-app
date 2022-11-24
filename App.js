@@ -12,6 +12,7 @@ import SettingsScreen from "./containers/SettingsScreen";
 import SplashScreen from "./containers/SplashScreen";
 import RoomScreen from "./containers/RoomScreen";
 import { Image } from "react-native";
+import AroundMeScreen from "./containers/AroundMeScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -130,6 +131,38 @@ export default function App() {
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
+
+                <Tab.Screen
+                  name="TabAroundMe"
+                  options={{
+                    tabBarLabel: "Around me",
+                    tabBarIcon: ({ color, size }) => (
+                      <Ionicons name={"pin-sharp"} size={size} color={color} />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="aroundMe"
+                        options={{
+                          headerStyle: { backgroundColor: "white" },
+                          headerTitle: () => {
+                            return (
+                              <Image
+                                source={require("./assets/logo.png")}
+                                style={{ width: 30, height: 30 }}
+                              />
+                            );
+                          },
+                        }}
+                      >
+                        {() => <AroundMeScreen />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+
                 <Tab.Screen
                   name="TabSettings"
                   options={{
